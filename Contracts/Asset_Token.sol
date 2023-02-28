@@ -71,6 +71,13 @@ contract AssetToken is ERC20, ERC20Burnable, Pausable, AccessControl {
         return _feeValue;
     }
 
+    /// @notice Public method to retrieve contract's address
+    /// @return _tokenAddress Address of the token
+    /// @dev This method supports VariableTokenFactory contract
+    function getAddress() public view returns (address _tokenAddress) {
+        _tokenAddress = address(this);
+    }
+
     /**
      * @dev Set a new fee value.
      */
@@ -211,10 +218,5 @@ contract AssetToken is ERC20, ERC20Burnable, Pausable, AccessControl {
         emit OwnershipTransferred(oldOwner, newOwner);
     }
 
-    /// @notice Public method to retrieve contract's address
-    /// @return _tokenAddress Address of the token
-    /// @dev This method supports VariableTokenFactory contract
-    function getAddress() public view returns (address _tokenAddress) {
-        _tokenAddress = address(this);
-    }
+    
 }
