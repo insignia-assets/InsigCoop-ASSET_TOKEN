@@ -21,7 +21,7 @@ contract AssetToken is ERC20, ERC20Burnable, Pausable, AccessControl {
 
     mapping(address => bool) private _whitelist;
     address private _feeAddress;
-    uint256 private _feeValue = 50; //0.5%
+    uint256 private _feeValue = 0; //50 -> 0.5%
     uint256 public constant FEE_BASE = 10000;
 
     address public _owner;
@@ -74,8 +74,8 @@ contract AssetToken is ERC20, ERC20Burnable, Pausable, AccessControl {
     /// @notice Public method to retrieve contract's address
     /// @return _tokenAddress Address of the token
     /// @dev This method supports VariableTokenFactory contract
-    function getAddress() public view returns (address _tokenAddress) {
-        _tokenAddress = address(this);
+    function getAddress() public view returns (address) {
+        return address(this);
     }
 
     /**

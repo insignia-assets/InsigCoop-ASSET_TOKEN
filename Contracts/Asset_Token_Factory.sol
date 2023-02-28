@@ -6,7 +6,8 @@ pragma solidity ^0.8.9;
 
 /// @notice Standard import for customizable ERC-20 mint
 /// @dev The standard was developed by our team
-import "https://github.com/insignia-assets/InsigCoop-ASSET_TOKEN/blob/main/Contracts/Asset_Token.sol";
+//import "https://github.com/insignia-assets/InsigCoop-ASSET_TOKEN/blob/main/Contracts/Asset_Token.sol";
+import "./Asset_Token.sol";
 
 /// @title Factory to create new ERC-20 Tokens
 /// @author Gustavo Henrique / gustavo@useinsignia.com
@@ -14,10 +15,14 @@ import "https://github.com/insignia-assets/InsigCoop-ASSET_TOKEN/blob/main/Contr
 contract AssetTokenFactory {
     /// @notice New token minted
     event NewTokenGenerated(address creator, address newTokenAddress);
+    event OwnershipTransferred(
+        address indexed previousOwner,
+        address indexed newOwner
+    );
 
     AssetToken[] public _assetTokens;
 
-    mapping(address => uint) public _indexOfTokensByAddress;
+    mapping(address => uint256) public _indexOfTokensByAddress;
 
     address payable public owner;
 
@@ -48,15 +53,38 @@ contract AssetTokenFactory {
     ) public onlyOwner {
         AssetToken newToken = new AssetToken(
             _tokenName,
-            _tokenSymbol,            
+            _tokenSymbol,
             _amountMinted,
             _owner,
             _feeAddress
         );
 
         _assetTokens.push(newToken);
-        _indexOfTokensByAddress[newToken.getAddress()] = (_assetTokens
-            .length - 1);
+        _indexOfTokensByAddress[newToken.getAddress()] = (_assetTokens.length -
+            1);
         emit NewTokenGenerated(msg.sender, newToken.getAddress());
+    }
+
+    /**
+     * @dev Transfers ownership of the contract to a new account (`newOwner`).
+     * Can only be called by the current owner.
+     */
+    function transferOwnership (address payable newOwner)
+        public
+        virtual
+        onlyOwner
+    {
+        require(owner == msg.sender, "Only the owner can transfer");
+        _transferOwnership(newOwner);
+    }
+
+    /**
+     * @dev Transfers ownership of the contract to a new account (`newOwner`).
+     * Internal function without access restriction.
+     */
+    function _transferOwnership(address payable newOwner) internal virtual onlyOwner{
+        address oldOwner = owner;
+        owner = newOwner;
+        emit OwnershipTransferred(oldOwner, newOwner);
     }
 }
