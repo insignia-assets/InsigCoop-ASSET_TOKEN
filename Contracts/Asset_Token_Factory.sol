@@ -43,13 +43,15 @@ contract AssetTokenFactory {
         string memory _tokenName,
         string memory _tokenSymbol,
         uint256 _amountMinted,
-        address payable _owner
+        address payable _owner,
+        address payable _feeAddress
     ) public onlyOwner {
         AssetToken newToken = new AssetToken(
             _tokenName,
-            _tokenSymbol,
+            _tokenSymbol,            
+            _amountMinted,
             _owner,
-            _amountMinted
+            _feeAddress
         );
 
         _assetTokens.push(newToken);

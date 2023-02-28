@@ -24,7 +24,7 @@ contract AssetToken is ERC20, ERC20Burnable, Pausable, AccessControl {
     uint256 private _feeValue = 50; //0.5%
     uint256 public constant FEE_BASE = 10000;
 
-    address public _owner;
+    address _owner;
 
     constructor(
         string memory _tokenName,
@@ -187,7 +187,13 @@ contract AssetToken is ERC20, ERC20Burnable, Pausable, AccessControl {
         super._revokeRole(role, account);
     }
 
-   
+    /**
+     * @dev Returns the address of the current owner.
+     */
+    function owner() public view virtual returns (address) {
+       return _owner;
+    }
+
     /**
      * @dev Transfers ownership of the contract to a new account (`newOwner`).
      * Can only be called by the current owner.
@@ -209,12 +215,5 @@ contract AssetToken is ERC20, ERC20Burnable, Pausable, AccessControl {
         address oldOwner = _owner;
         _owner = newOwner;
         emit OwnershipTransferred(oldOwner, newOwner);
-    }
-
-    /// @notice Public method to retrieve contract's address
-    /// @return _tokenAddress Address of the token
-    /// @dev This method supports VariableTokenFactory contract
-    function getAddress() public view returns (address _tokenAddress) {
-        _tokenAddress = address(this);
     }
 }
