@@ -6,8 +6,8 @@ pragma solidity ^0.8.9;
 
 /// @notice Standard import for customizable ERC-20 mint
 /// @dev The standard was developed by our team
-//import "https://github.com/insignia-assets/InsigCoop-ASSET_TOKEN/blob/main/Contracts/Asset_Token.sol";
-import "./Asset_Token.sol";
+import "https://github.com/insignia-assets/InsigCoop-ASSET_TOKEN/blob/main/Contracts/Asset_Token.sol";
+//import "./Asset_Token.sol";
 
 /// @title Factory to create new ERC-20 Tokens
 /// @author Gustavo Henrique / gustavo@useinsignia.com
